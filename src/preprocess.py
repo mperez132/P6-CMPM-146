@@ -1,4 +1,5 @@
 from tensorflow import keras
+import tensorflow
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from keras.preprocessing import image
 import matplotlib.pyplot as plt
@@ -9,11 +10,22 @@ validation_dir = 'cats_and_dogs_small/validation/'
 # Create the data generators (each should be an instance of ImageDataGenerator)
 # Rescale all images from the [0...255] range to the [0...1] range
 train_datagen = None # TODO: Student
+train_datagen = ImageDataGenerator(rescale=1./255)
 test_datagen = None # TODO: Student
+test_datagen = ImageDataGenerator(rescale=1./255)
+
 
 # Call flow_from_directory on each of your datagen objects
 train_generator = None  # TODO: Student
+train_generator = ImageDataGenerator.flow_from_directory(
+    train_datagen, directory=train_dir, target_size=(150, 150),
+    batch_size=20, class_mode='binary'
+)
 validation_generator = None  # TODO: Student
+validation_generator = ImageDataGenerator.flow_from_directory(
+    test_datagen, directory=validation_dir, target_size=(150, 150),
+    batch_size=20, class_mode='binary'
+)
 
 # Usage Example:
 for data_batch, labels_batch in train_generator:
